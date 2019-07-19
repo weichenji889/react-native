@@ -1,12 +1,4 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
-
-import React, {Fragment} from 'react';
+import React, {Component} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -14,101 +6,53 @@ import {
   View,
   Text,
   StatusBar,
+  Image
 } from 'react-native';
-
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-const App = () => {
-  return (
-    <Fragment>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <Header />
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
-            </View>
-          )}
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Step One</Text>
-              <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.js</Text> to change this
-                screen and then come back to see your edits.
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>
-                Read the docs to discover what to do next:
-              </Text>
-            </View>
-            <LearnMoreLinks />
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </Fragment>
+//导入 json 数据
+var BadgeData = require('./BadgeData')
+class App extends  Component{
+  render() {
+    return(
+        <View style={styles1.container}>
+        {/*返回6个包*/}
+             {this.renderAllBadge()}
+      </View>
   );
-};
-
-const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
+  }
+  //返回所有的包
+  renderAllBadge(){
+    //定义数组装所有子组件
+    var allBadge = [];
+    // 遍历json数据
+    for(var i=0;i<BadgeData.data.length;i++){
+      //取出单独的数据对象
+      var badge = BadgeData.data[i];
+      //直接装入数组
+      allBadge.push(
+      <View key={i} style = {styles1.outViewStyle}>
+          <Image source={{uri:badge.icon}} style={styles1.imageStyle}/>
+      <Text style={styles1.mainTitleStyle}>
+          {badge.title}
+          </Text>
+          </View>
+    );
+    }
+    // 返回数组
+    return allBadge;
+  }
+}
+const  styles1= StyleSheet.create({
+  container: {
+    flex: 1,  //占满整个屏幕
+    backgroundColor: 'purple',
   },
-  engine: {
-    position: 'absolute',
-    right: 0,
+  outViewStyle:{
   },
-  body: {
-    backgroundColor: Colors.white,
+  imageStyle:{
+    width:80,
+    height:80
   },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
-  },
-});
-
+  mainTitleStyle:{
+  }
+})
 export default App;
